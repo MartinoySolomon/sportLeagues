@@ -122,34 +122,34 @@ async function getSeasonsList(leagueID) {
 
 async function showSeasonsList(event) {
 	try {
-        modalBack.classList.add("hidden")
-        modalContent.innerHTML='';
+		modalBack.classList.add("hidden");
+		modalContent.innerHTML = "";
 		const leagueID = parseInt(event.target.id);
 		const seasonList = await getSeasonsList(leagueID);
 		if (seasonList == undefined) {
 			throw new Error("Failed to Fetch");
 		}
-        const seasonListTitleElement = document.createElement("div");
-        seasonListTitleElement.classList.add("seasons_list_title");
+		const seasonListTitleElement = document.createElement("div");
+		seasonListTitleElement.classList.add("seasons_list_title");
 
-        seasonListTitleElement.innerHTML =
-        event.target.previousElementSibling.innerHTML + " Seasons";
+		seasonListTitleElement.innerHTML =
+			event.target.previousElementSibling.innerHTML + " Seasons";
 
-        seasonListTitleElement.id = leagueID;
+		seasonListTitleElement.id = leagueID;
 
-        const seasonListElement = document.createElement("div");
-        seasonListElement.classList.add("seasons_list_content");
-        seasonListElement.id='seasonListContent';
+		const seasonListElement = document.createElement("div");
+		seasonListElement.classList.add("seasons_list_content");
+		seasonListElement.id = "seasonListContent";
 
 		seasonList.forEach((season) => {
 			const seasonLink = document.createElement("div");
 			seasonLink.classList.add("season_link");
 			seasonLink.innerHTML = season.strSeason;
 			seasonLink.addEventListener("click", showSeasonsEvents);
-            seasonListElement.appendChild(seasonLink);
+			seasonListElement.appendChild(seasonLink);
 		});
-        modalContent.appendChild(seasonListTitleElement);
-        modalContent.appendChild(seasonListElement);
+		modalContent.appendChild(seasonListTitleElement);
+		modalContent.appendChild(seasonListElement);
 
 		showModal();
 	} catch (err) {
@@ -160,43 +160,42 @@ async function showSeasonsList(event) {
 
 async function showSeasonsEvents(event) {
 	try {
-        const leagueYear = event.target.innerHTML;
+		const leagueYear = event.target.innerHTML;
 		const leagueID = event.target.parentElement.previousElementSibling.id;
 		const seasonEvents = await getSeasonsEvents(leagueID, leagueYear);
 		if (seasonEvents == undefined) {
-            throw new Error("Failed to Fetch");
+			throw new Error("Failed to Fetch");
 		}
-        modalContent.innerHTML='';
-        const seasonEventsTitle=document.createElement("div");
-        seasonEventsTitle.innerHTML=`Events For Season ${seasonEvents[0].strSeason}`
-        seasonEventsTitle.classList.add("season_events_title");
-        modalContent.appendChild(seasonEventsTitle);
+		modalContent.innerHTML = "";
+		const seasonEventsTitle = document.createElement("div");
+		seasonEventsTitle.innerHTML = `Events For Season ${seasonEvents[0].strSeason}`;
+		seasonEventsTitle.classList.add("season_events_title");
+		modalContent.appendChild(seasonEventsTitle);
 
-        const seasonEventContent=document.createElement("div");
-        seasonEventContent.classList.add("season_events_content")
+		const seasonEventContent = document.createElement("div");
+		seasonEventContent.classList.add("season_events_content");
 
-        seasonEvents.forEach((seasonEvent)=>{
-            const eventBoxElement = document.createElement("div");
-            eventBoxElement.classList.add("event");
-            const eventTitle = document.createElement("div");
-            eventTitle.classList.add("event_title")
-            eventTitle.innerHTML=seasonEvent.strEvent;
-            const eventDate = document.createElement("div");
-            eventDate.classList.add("event_date")
-            eventDate.innerHTML=seasonEvent.dateEvent;
-            const eventImg = document.createElement("div");
-            eventImg.classList.add("event_img")
-            eventImg.innerHTML=
-            `<img src=${seasonEvent.strLeagueBadge} alt='${seasonEvent.strLeague}'/>`
-            eventBoxElement.appendChild(eventTitle);
-            eventBoxElement.appendChild(eventDate);
-            eventBoxElement.appendChild(eventImg);
-            seasonEventContent.appendChild(eventBoxElement);
-        })
-        modalBack.addEventListener("click",showSeasonsList)
-        modalContent.appendChild(seasonEventContent);
-        modalBack.id=seasonEvents[0].idLeague;
-        modalBack.classList.remove("hidden");
+		seasonEvents.forEach((seasonEvent) => {
+			const eventBoxElement = document.createElement("div");
+			eventBoxElement.classList.add("event");
+			const eventTitle = document.createElement("div");
+			eventTitle.classList.add("event_title");
+			eventTitle.innerHTML = seasonEvent.strEvent;
+			const eventDate = document.createElement("div");
+			eventDate.classList.add("event_date");
+			eventDate.innerHTML = seasonEvent.dateEvent;
+			const eventImg = document.createElement("div");
+			eventImg.classList.add("event_img");
+			eventImg.innerHTML = `<img src=${seasonEvent.strLeagueBadge} alt='${seasonEvent.strLeague}'/>`;
+			eventBoxElement.appendChild(eventTitle);
+			eventBoxElement.appendChild(eventDate);
+			eventBoxElement.appendChild(eventImg);
+			seasonEventContent.appendChild(eventBoxElement);
+		});
+		modalBack.addEventListener("click", showSeasonsList);
+		modalContent.appendChild(seasonEventContent);
+		modalBack.id = seasonEvents[0].idLeague;
+		modalBack.classList.remove("hidden");
 	} catch (err) {
 		console.log(err);
 	} finally {
