@@ -10,8 +10,8 @@
 body {
 	overflow-x: hidden;
 	width: 100vw;
+	height: 96vh;
 	max-width: 1400px;
-	min-height: 100vh;
 	margin: 0 auto;
 	background-color: #f7f7f7;
 	header {
@@ -35,6 +35,8 @@ body {
 	}
 	main {
 		margin-top: 2rem;
+		width: 100%;
+		height: 100%;
 		.hidden {
 			display: none;
 		}
@@ -94,6 +96,58 @@ body {
 			background: #152536;
 			animation: l1-0 0.5s cubic-bezier(0, 900, 1, 900) infinite,
 				l1-1 2s linear infinite;
+		}
+		.modal {
+			left: 0;
+			top: 0;
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			padding: 7%;
+			z-index: 1;
+			background-color: #00000040;
+
+			.seasons_list_modal {
+				position: relative;
+				margin: 0 auto;
+				border-radius: 20px;
+				width: 100%;
+				height: 100%;
+				border-radius: 20px;
+				background-color: #ffffff;
+				padding: 4rem 5rem;
+				.modal_close {
+					position: absolute;
+					cursor: pointer;
+					top: 0;
+					left: 0;
+					color: #343a40;
+					font-weight: 700;
+					font-size: 2.5rem;
+					padding: 1.5rem;
+				}
+				.modal_close:hover {
+					color: #000000;
+				}
+				.seasons_list_title {
+					color: #343a40;
+					font-weight: 600;
+					font-size: 2.5rem;
+				}
+				.seasons_list_content {
+                    width:50%;
+                    margin: 3rem 1rem;
+					display: grid;
+					grid-template-columns: repeat(3,1fr);
+					.season_link {
+						color: #7749f8;
+						cursor: pointer;
+						font-weight: 400;
+						font-size: 1rem;
+						line-height: 1.75rem;
+					}
+				}
+			}
 		}
 	}
 }

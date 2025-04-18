@@ -1,5 +1,12 @@
 const wrapper = document.querySelector(".wrapper");
 const loadingElement=document.querySelector(".loader")
+const modalClose=document.querySelector(".modal_close")
+const modal=document.querySelector(".modal")
+
+
+modalClose.addEventListener("click",()=>{
+    modal.classList.add("hidden")
+})
 
 window.setTimeout(buildHomePage,1500);
 
