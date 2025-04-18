@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Inter", sans-serif;
+}
+
+body {
+	overflow-x: hidden;
+	width: 100vw;
+	max-width: 1400px;
+	min-height: 100vh;
+	margin: 0 auto;
+	background-color: #f7f7f7;
+	header {
+		nav {
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100vw;
+			background-color: #343a40;
+			color: #f8f9fa;
+			font-size: 1.25rem;
+			font-weight: 600;
+			height: 3.5rem;
+			line-height: 3.5rem;
+			h4 {
+				margin: 0 auto;
+				padding: 0 1rem;
+				max-width: 1400px;
+			}
+		}
+	}
+	main {
+		margin-top: 2rem;
+		.hidden {
+			display: none;
+		}
+		.wrapper {
+			background-color: #ffffff;
+
+			.sport_type {
+				padding: 1rem;
+				.sport_type_title {
+					font-size: 2.5rem;
+					font-weight: 600;
+					color: #343a40;
+					margin: 1.5rem 1rem;
+				}
+				.leagues_list {
+					display: flex;
+					flex-wrap: wrap;
+
+					.league {
+						margin: 1rem;
+						border: 1px solid #dee2e6;
+						border-radius: 10px;
+						flex-grow: 1;
+						.league_name {
+							color: #152536;
+							font-size: 1.5rem;
+							font-weight: 600;
+							margin: 1.5rem;
+						}
+						.link_to_list {
+							font-size: 1rem;
+							font-weight: 400;
+							margin: 1.5rem;
+							color: #7749f8;
+							cursor: pointer;
+						}
+					}
+				}
+			}
+		}
+		.loader {
+			background-color: #f7f7f7;
+			margin: 0 auto;
+			height: 200px;
+			aspect-ratio: 2;
+			border-bottom: 3px solid #152536;
+			position: relative;
+			top: 40vh;
+			overflow: hidden;
+		}
+		.loader:before {
+			content: "";
+			position: absolute;
+			inset: auto 42.5% 0;
+			aspect-ratio: 1;
+			border-radius: 50%;
+			background: #152536;
+			animation: l1-0 0.5s cubic-bezier(0, 900, 1, 900) infinite,
+				l1-1 2s linear infinite;
+		}
+	}
+}
+
+@keyframes l1-0 {
+	0%,
+	2% {
+		bottom: 0%;
+	}
+	98%,
+	to {
+		bottom: 0.1%;
+	}
+}
+@keyframes l1-1 {
+	0% {
+		translate: -500%;
+	}
+	to {
+		translate: 500%;
+	}
+}
