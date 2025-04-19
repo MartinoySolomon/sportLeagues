@@ -4,6 +4,9 @@ const modalClose = document.querySelector(".modal_close");
 const modal = document.querySelector(".modal");
 const modalContent = document.querySelector(".modal_content");
 const modalBack = document.querySelector(".modal_back");
+let modalBackHandler;
+
+
 window.setTimeout(buildHomePage, 1500);
 
 function showModal() {
@@ -49,7 +52,9 @@ async function buildHomePage() {
 				linkToList.id = element.idLeague;
 				linkToList.classList.add("link_to_list");
 				linkToList.innerHTML = `Seasons List`;
-				linkToList.addEventListener("click", showSeasonsList);
+				linkToList.addEventListener("click", (event)=>{
+					showSeasonsList(event,element.strLeague)
+				});
 
 				league.appendChild(leagueName);
 				league.appendChild(linkToList);
@@ -120,10 +125,10 @@ async function getSeasonsList(leagueID) {
 	}
 }
 
-async function showSeasonsList(event) {
+async function showSeasonsList(event, leagueName) {
 	try {
 		modalBack.classList.add("hidden");
-		modalContent.innerHTML = "";
+		modalContent.innerHTML = '';
 		const leagueID = parseInt(event.target.id);
 		const seasonList = await getSeasonsList(leagueID);
 		if (seasonList == undefined) {
@@ -131,10 +136,7 @@ async function showSeasonsList(event) {
 		}
 		const seasonListTitleElement = document.createElement("div");
 		seasonListTitleElement.classList.add("seasons_list_title");
-
-		seasonListTitleElement.innerHTML =
-			event.target.previousElementSibling.innerHTML + " Seasons";
-
+		seasonListTitleElement.innerHTML = leagueName;
 		seasonListTitleElement.id = leagueID;
 
 		const seasonListElement = document.createElement("div");
@@ -150,11 +152,12 @@ async function showSeasonsList(event) {
 		});
 		modalContent.appendChild(seasonListTitleElement);
 		modalContent.appendChild(seasonListElement);
-
 		showModal();
+
 	} catch (err) {
 		console.log(err);
 	} finally {
+
 	}
 }
 
@@ -166,7 +169,7 @@ async function showSeasonsEvents(event) {
 		if (seasonEvents == undefined) {
 			throw new Error("Failed to Fetch");
 		}
-		modalContent.innerHTML = "";
+		modalContent.innerHTML = '';
 		const seasonEventsTitle = document.createElement("div");
 		seasonEventsTitle.innerHTML = `Events For Season ${seasonEvents[0].strSeason}`;
 		seasonEventsTitle.classList.add("season_events_title");
@@ -192,7 +195,13 @@ async function showSeasonsEvents(event) {
 			eventBoxElement.appendChild(eventImg);
 			seasonEventContent.appendChild(eventBoxElement);
 		});
-		modalBack.addEventListener("click", showSeasonsList);
+		if (modalBackHandler) {
+			modalBack.removeEventListener("click", modalBackHandler);
+		}
+		modalBackHandler = (event)=> {
+			showSeasonsList(event, seasonEvents[0].strLeague);
+		};
+		modalBack.addEventListener("click", modalBackHandler);
 		modalContent.appendChild(seasonEventContent);
 		modalBack.id = seasonEvents[0].idLeague;
 		modalBack.classList.remove("hidden");
@@ -201,7 +210,7 @@ async function showSeasonsEvents(event) {
 	} finally {
 	}
 }
-
+// when going back on forth inside the modal, it is sending ultiple events!
 async function getSeasonsEvents(leagueID, leagueYear) {
 	try {
 		const response = await fetch(
